@@ -14,7 +14,7 @@ let questions = [
     },
     {
         question: "Which of the following allows you to declare a variable?",
-        answers: ["int","const","float","var",],
+        answers: ["int","const","float","var"],
         correctanswer: "var"
     },
     {
@@ -51,26 +51,25 @@ startbuttonEl.addEventListener("click", function () {
         for (i = 0; i < answerbuttonEl.length; i++) {
             answerbuttonEl[i].textContent=questions[thisquestion].answers[i];
             answerbuttonEl[i].setAttribute("style", "display:block")
-            answerbuttonEl[i].addEventListener("click", function (event)
-             {
-                
-               
-//when clicked, go to the next question
-                thisquestion++;
-            displayNextQuestion();  
+
+            answerbuttonEl[i].addEventListener("click", function (event){  
+                 console.log(event.target.innerText)
+                 console.log(questions[thisquestion].correctanswer)
 //when clicked, if the answer was correct...  
-            if (event.target.innerText==questions[thisquestion].correctanswer){
-                
-                score++;
-                console.log(score);
-            }
-        })}
-        //questionEl.textContent = questions[thisquestion].question;
+                 if (event.target.innerText==questions[thisquestion].correctanswer){
+                    score++;
+                    console.log(score);
+                }   
+//when clicked, go to the next question
+            displayNextQuestion(); 
+        })
+    }
 
 
-    })
+})
      
     function displayNextQuestion(){
+        thisquestion++;
         for (i = 0; i < answerbuttonEl.length; i++) 
         {
             answerbuttonEl[i].textContent=questions[thisquestion].answers[i];
