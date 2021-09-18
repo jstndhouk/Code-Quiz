@@ -5,6 +5,7 @@ let questionEl = document.querySelector('#question');
 let timerCount = 30;
 let thisquestion=0;
 var score=0;
+var redint=1;
 
 let questions = [
     {
@@ -47,19 +48,37 @@ startbuttonEl.addEventListener("click", function () {
         }, 1000);
 //make the start button go away
         startbuttonEl.setAttribute("style", "display:none");
+        questionEl.textContent=questions[thisquestion].question;
 //one by one, looped, assign the first question's answers to the buttons and make them appear.  also start listening to the event of them being clicked.
         for (i = 0; i < answerbuttonEl.length; i++) {
             answerbuttonEl[i].textContent=questions[thisquestion].answers[i];
             answerbuttonEl[i].setAttribute("style", "display:block")
 
             answerbuttonEl[i].addEventListener("click", function (event){  
-                 console.log(event.target.innerText)
-                 console.log(questions[thisquestion].correctanswer)
 //when clicked, if the answer was correct...  
                  if (event.target.innerText==questions[thisquestion].correctanswer){
                     score++;
-                    console.log(score);
-                }   
+                    console.log(score);}
+                else{
+                timerCount=timerCount-5;
+                timeleftEl.setAttribute('style', "color:red");
+                var redflash = setInterval(function () {
+                    
+                    if (redint=0){
+                    timeleftEl.setAttribute('style', "color:black");
+                    console.log(redint);
+                    clearInterval(redflash);
+                    return;
+                }
+                    redint--;
+                    console.log(redint)
+                } 
+                ,1000)}
+
+
+                
+    
+                   
 //when clicked, go to the next question
             displayNextQuestion(); 
         })
