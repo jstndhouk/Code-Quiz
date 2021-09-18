@@ -1,0 +1,45 @@
+body{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header{
+    display: flex;
+    justify-content: left;
+    width:100%;
+}
+
+#highscoreslink{
+    text-align: left;
+    width:50%;
+    font-size:14px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#time-left{
+    text-align: right;
+    font-size:40px;
+    width: 50%
+}
+
+#instructions{
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px 20px;
+}
+
+#question{
+    font-size:24px;
+    text-align: center;
+}
+
+#beginbutton{
+    font-size:20px;
+}
+
+.answerbutton{
+    display:none;
+    margin:10px;
+}
