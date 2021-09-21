@@ -2,96 +2,96 @@ let startbuttonEl = document.querySelector('#beginbutton');
 let timeleftEl = document.querySelector('#time-left');
 let answerbuttonEl = document.querySelectorAll('.answerbutton');
 let questionEl = document.querySelector('#question');
-let timerCount = 30;
-let thisquestion=0;
-var score=0;
-var redint=1;
-
+let timerCount = 300;
+let thisquestion = 0;
+let score = 0;
+let titleEl=document.querySelector('#title');
+let scoresEl=document.querySelector('#scores');
 let questions = [
     {
         question: "What does DOM stand for?",
-        answers: ["Dominent Obstacle Moon","Document Object Model","Doctorate Oval Matrix","Decorate Olivia's Mom",],
+        answers: ["Dominent Obstacle Moon", "Document Object Model", "Doctorate Oval Matrix", "Decorate Olivia's Mom",],
         correctanswer: "Document Object Model"
     },
     {
         question: "Which of the following allows you to declare a variable?",
-        answers: ["int","const","float","var"],
+        answers: ["int", "const", "float", "var"],
         correctanswer: "var"
     },
     {
-        question: "Which of these allows you to assign a variable to the contents of an id or class in your HTML file?",
-        answers: [".setAttribute",".length",".querySelector",".setInterval",],
+        question: "Which of these allows you to assign a variable to the contents of an HTML element?",
+        answers: [".setAttribute", ".length", ".querySelector", ".setInterval",],
         correctanswer: ".querySelector"
     },
     {
         question: "Which of the following allows a function to run, periodically depending on a described interval?",
-        answers: [".timer-set",".textContent",".addEventListener",".setInterval",],
+        answers: [".timer-set", ".textContent", ".addEventListener", ".setInterval",],
         correctanswer: ".setInterval"
+    },
+    {
+        question: "Who is the queen of rap?",
+        answers: ["Nikki Minaj", "Cardi B", "Megan Thee Stallion", "Lil' Kim",],
+        correctanswer: "Nikki Minaj"
     }
+    
 ]
-
-
-//when the start button is pressed....
 startbuttonEl.addEventListener("click", function () {
+    timeleftEl.textContent = 'Time Left: ' + timerCount;
+    var timeInterval = setInterval(function () {
+        timerCount--;
         timeleftEl.textContent = 'Time Left: ' + timerCount;
-//start the timer 
-        var timeInterval = setInterval(function () {
-            timerCount--;
-            timeleftEl.textContent = 'Time Left: ' + timerCount;
-            if (timerCount < 1) {
-                clearInterval(timeInterval);
-                alert("You have run out of time!  Try again.")
-                return;
+        if (timerCount < 1) {
+            clearInterval(timeInterval);
+            alert("You have run out of time!  Try again.")
+            return;
+        }
+    }, 1000);
+    startbuttonEl.setAttribute("style", "display:none");
+    displayNextQuestion();
+    for (i = 0; i < answerbuttonEl.length; i++) {
+        answerbuttonEl[i].setAttribute("style", "display:block")
+        answerbuttonEl[i].addEventListener("click", function (event) {
+            if (event.target.innerText == questions[thisquestion-1].correctanswer) {
+                score++;
+                console.log("Current score:" +score)
             }
             else {
-            }
-        }, 1000);
-//make the start button go away
-        startbuttonEl.setAttribute("style", "display:none");
-        questionEl.textContent=questions[thisquestion].question;
-//one by one, looped, assign the first question's answers to the buttons and make them appear.  also start listening to the event of them being clicked.
-        for (i = 0; i < answerbuttonEl.length; i++) {
-            answerbuttonEl[i].textContent=questions[thisquestion].answers[i];
-            answerbuttonEl[i].setAttribute("style", "display:block")
-
-            answerbuttonEl[i].addEventListener("click", function (event){  
-//when clicked, if the answer was correct...  
-                 if (event.target.innerText==questions[thisquestion].correctanswer){
-                    score++;
-                    console.log(score);}
-                else{
-                timerCount=timerCount-5;
+                timerCount = timerCount - 5;
                 timeleftEl.setAttribute('style', "color:red");
-                var redflash = setInterval(function () {
-                    
-                    if (redint=0){
-                    timeleftEl.setAttribute('style', "color:black");
-                    console.log(redint);
-                    clearInterval(redflash);
-                    return;
-                }
-                    redint--;
-                    console.log(redint)
-                } 
-                ,1000)}
+                setTimeout(function () {
+                    timeleftEl.setAttribute('style', "color:black")
+                }, 250);
 
-
-                
-    
-                   
-//when clicked, go to the next question
-            displayNextQuestion(); 
+            }
+            console.log("The question we are on is: " + thisquestion)
+            console.log("The length of the array is :" + questions.length)
+            if (thisquestion == questions.length) {
+                displayHighScores();
+            }
+            else {
+                displayNextQuestion()
+            }
         })
     }
-
-
 })
-     
-    function displayNextQuestion(){
-        thisquestion++;
-        for (i = 0; i < answerbuttonEl.length; i++) 
-        {
-            answerbuttonEl[i].textContent=questions[thisquestion].answers[i];
-        }
-        questionEl.textContent = questions[thisquestion].question;
-     }
+
+function displayNextQuestion() {
+
+    questionEl.textContent = questions[thisquestion].question;
+    for (i = 0; i < answerbuttonEl.length; i++) {
+        answerbuttonEl[i].textContent = questions[thisquestion].answers[i];
+    }
+    thisquestion++
+}
+
+function displayHighScores() {
+    for (i = 0; i < answerbuttonEl.length; i++) {
+        answerbuttonEl[i].setAttribute("style", "display:hidden")}
+        questionEl.textContent = "";    
+        let initials=prompt("Enter your initials to save your score.");
+        let newscore=[initials, score];
+        console.log(newscore);
+        highscores.push(newscore)
+        console.log(highscores);
+        localStorage.setItem('highscores',highscores); 
+}
