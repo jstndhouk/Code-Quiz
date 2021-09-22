@@ -87,11 +87,16 @@ function displayNextQuestion() {
 function displayHighScores() {
     for (i = 0; i < answerbuttonEl.length; i++) {
         answerbuttonEl[i].setAttribute("style", "display:hidden")}
+        if (localStorage.getItem("highscores") === null) {
+            let highscores=["",""];
+            console.log("The variable has been created");
+            console.log(highscores);
+          }
         questionEl.textContent = "";    
         let initials=prompt("Enter your initials to save your score.");
         let newscore=[initials, score];
         console.log(newscore);
-        highscores.push(newscore)
         console.log(highscores);
+        highscores.push(newscore)
         localStorage.setItem('highscores',highscores); 
 }
