@@ -4,6 +4,10 @@ body{
     align-items: center;
 }
 
+#title{
+    font-family:monospace;
+    font-size:40px;
+}
 header{
     display: flex;
     justify-content: left;

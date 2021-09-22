@@ -7,6 +7,7 @@ let thisquestion = 0;
 let score = 0;
 let titleEl=document.querySelector('#title');
 let scoresEl=document.querySelector('#scores');
+let highscores =JSON.parse(window.localStorage.getItem("highscores")) || [];
 let questions = [
     {
         question: "What does DOM stand for?",
@@ -61,10 +62,7 @@ startbuttonEl.addEventListener("click", function () {
                 setTimeout(function () {
                     timeleftEl.setAttribute('style', "color:black")
                 }, 250);
-
             }
-            console.log("The question we are on is: " + thisquestion)
-            console.log("The length of the array is :" + questions.length)
             if (thisquestion == questions.length) {
                 displayHighScores();
             }
@@ -85,18 +83,20 @@ function displayNextQuestion() {
 }
 
 function displayHighScores() {
-    for (i = 0; i < answerbuttonEl.length; i++) {
+    for (i = 0; i < answerbuttonEl.length-1; i++) {
         answerbuttonEl[i].setAttribute("style", "display:hidden")}
-        if (localStorage.getItem("highscores") === null) {
-            let highscores=["",""];
-            console.log("The variable has been created");
-            console.log(highscores);
-          }
         questionEl.textContent = "";    
+        titleEl.textContent="Highscores";
         let initials=prompt("Enter your initials to save your score.");
-        let newscore=[initials, score];
-        console.log(newscore);
-        console.log(highscores);
-        highscores.push(newscore)
-        localStorage.setItem('highscores',highscores); 
+        let newscore={initials, score};
+        highscores.push(newscore);
+        for(i=0; i<highscores.length; i++){
+            let eachscore=highscores[i]
+            console.log(eachscore)
+            questionEl.textContent=("high score" + eachscore.score);
+        }
+        localStorage.setItem('highscores',JSON.stringify(highscores)); 
+        
+        
+        
 }
