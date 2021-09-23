@@ -2,12 +2,14 @@ let startbuttonEl = document.querySelector('#beginbutton');
 let timeleftEl = document.querySelector('#time-left');
 let answerbuttonEl = document.querySelectorAll('.answerbutton');
 let questionEl = document.querySelector('#question');
-let timerCount = 300;
+let timerCount = 30;
 let thisquestion = 0;
 let score = 0;
 let titleEl=document.querySelector('#title');
 let scoresEl=document.querySelector('#scores');
 let highscores =JSON.parse(window.localStorage.getItem("highscores")) || [];
+let hscoresbtnEl=document.querySelector("#hscoresbtn");
+
 let questions = [
     {
         question: "What does DOM stand for?",
@@ -36,6 +38,10 @@ let questions = [
     }
     
 ]
+hscoresbtnEl.addEventListener("click", function () {
+    displayHighscores();
+    startbuttonEl.setAttribute("style", "display:none");})
+
 startbuttonEl.addEventListener("click", function () {
     timeleftEl.textContent = 'Time Left: ' + timerCount;
     var timeInterval = setInterval(function () {
@@ -64,7 +70,10 @@ startbuttonEl.addEventListener("click", function () {
                 }, 250);
             }
             if (thisquestion == questions.length) {
-                displayHighScores();
+                clearInterval(timeInterval);
+                setHighscores();
+                displayHighscores();
+                
             }
             else {
                 displayNextQuestion()
@@ -82,21 +91,40 @@ function displayNextQuestion() {
     thisquestion++
 }
 
-function displayHighScores() {
-    for (i = 0; i < answerbuttonEl.length-1; i++) {
-        answerbuttonEl[i].setAttribute("style", "display:hidden")}
-        questionEl.textContent = "";    
-        titleEl.textContent="Highscores";
+function setHighscores() {
         let initials=prompt("Enter your initials to save your score.");
+        for (i = 0; i < answerbuttonEl.length; i++) {
+            answerbuttonEl[i].setAttribute("style", "display:hidden")}
+            timeleftEl.setAttribute("style", "display:none");
+            questionEl.textContent = "";    
+            titleEl.textContent="Highscores";
         let newscore={initials, score};
         highscores.push(newscore);
         for(i=0; i<highscores.length; i++){
-            let eachscore=highscores[i]
-            console.log(eachscore)
-            questionEl.textContent=("high score" + eachscore.score);
+            let eachscore=highscores[i];
+            let hs = document.createElement("p");
+            hs.textContent=eachscore.initials + ": " + eachscore.score;
+            questionEl.appendChild(hs);
+
         }
         localStorage.setItem('highscores',JSON.stringify(highscores)); 
-        
-        
-        
 }
+    
+function displayHighscores(){
+        for (i = 0; i < answerbuttonEl.length; i++) {
+            answerbuttonEl[i].setAttribute("style", "display:hidden")}
+            timeleftEl.setAttribute("style", "display:none");
+            questionEl.textContent = "";    
+            titleEl.textContent="Highscores";
+        for(i=0; i<highscores.length; i++){
+            let eachscore=highscores[i];
+            let hs = document.createElement("p");
+            hs.textContent=eachscore.initials + ": " + eachscore.score;
+            questionEl.appendChild(hs);
+
+        }
+}
+        
+        
+        
+
